@@ -1,4 +1,4 @@
-import React from "react";
+/*import React from "react";
 
 function Hero() {
   return (
@@ -68,6 +68,52 @@ function Hero() {
             </div>
             <h3 className="text-[rgba(24,64,167,1)] group-hover:text-white font-bold text-[64px] md:text-[96px] leading-[1] md:leading-[134.4px]">
               {card.number}
+            </h3>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default Hero;*/
+
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+
+function Hero() {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("https://jsonplaceholder.typicode.com/users")
+      .then((response) => {
+        setUsers(response.data.slice(0, 6));
+      })
+      .catch((error) => console.error("Ma'lumot olishda xatolik:", error));
+  }, []);
+
+  return (
+    <div className="my-[100px]">
+      <div className="max-w-[1296px] mx-auto px-4 md:px-8 lg:px-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[24px]">
+        {users.map((user, index) => (
+          <div
+            key={user.id}
+            className="group w-full sm:w-[416px] h-auto md:h-[313px] border-2 border-[rgba(24,64,167,0.5)] 
+            flex flex-col md:flex-row justify-between items-center p-6 md:p-10 
+            transition duration-300 ease-in-out hover:bg-[rgba(24,64,167,1)] hover:text-white"
+          >
+            <div className="flex flex-col gap-y-2 md:gap-y-4">
+              <p className="font-semibold text-lg md:text-xl group-hover:text-white">
+                {user.name}
+              </p>
+              <p className="text-gray-700 md:text-base group-hover:text-white">
+                {user.email}
+              </p>
+            </div>
+
+            <h3 className="text-[rgba(24,64,167,1)] group-hover:text-white font-bold text-[64px] md:text-[96px] leading-[1] md:leading-[134.4px]">
+              {String(index + 1).padStart(2, "0")}
             </h3>
           </div>
         ))}
